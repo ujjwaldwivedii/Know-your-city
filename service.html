@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know your city</title>
+    <link rel="stylesheet" href="site.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>📍Know your city</h1>
+        <p id="subtitle">Find services and places near you</p>
+    </header>
+
+    <div id="location-box">
+        <p id="location-text">Click the button to detect your location</p>
+        <button id="detect-btn">📍 Detect My Location</button>
+    </div>
+
+    <div id="loader" class="hidden">
+        <p>⏳ Fetching your location...</p>
+    </div>
+
+    <div id="city-box" class="hidden">
+        <h2 id="city-name"></h2>
+    </div>
+
+    <div id="services-section" class="hidden">
+        <h2>🛍️ Services Available Near You</h2>
+        <div id="services-grid"></div>
+    </div>
+
+    <div id="places-section" class="hidden">
+        <h2>🗺️ Nearby Places</h2>
+        <div id="places-filter">
+            <button class="filter-btn active" data-type="restaurant">🍔 Food</button>
+            <button class="filter-btn" data-type="hospital">🏥 Hospital</button>
+            <button class="filter-btn" data-type="park">🌳 Parks</button>
+            <button class="filter-btn" data-type="atm">💰 ATMs</button>
+            <button class="filter-btn" data-type="hotel">🏨 Hotels</button>
+        </div>
+        <div id="places-grid"></div>
+    </div>
+    <div id="thankyou-box" class="hidden">
+    <div class="thankyou-content">
+        <span class="thankyou-icon">🌆</span>
+        <h2 class="thankyou-title">Thank You!</h2>
+        <p class="thankyou-text">I hope you enjoy discovering <span id="thankyou-city">your city</span> ✨<br>-Ujjwal Dwivedi</p>
+    </div>
+</div>
+    <div id="error-box" class="hidden">
+        <p id="error-text"></p>
+    </div>
+
+    <script src="city.js"></script>
+</body>
+</html>
