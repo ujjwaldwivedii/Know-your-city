@@ -532,6 +532,6 @@ header h1 {
 #services-filter {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
   margin-bottom: 20px;
 }
