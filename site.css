@@ -529,3 +529,9 @@ header h1 {
   #services-grid, #places-grid { grid-template-columns: 1fr; }
   .service-buttons { flex-direction: column; }
 }
+#services-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
