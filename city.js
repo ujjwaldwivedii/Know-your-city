@@ -62,7 +62,33 @@ const citySpecificServices = [
     { name: "Arunachal Pradesh Transport", category: "Public Transport", description: "State transport buses connecting Itanagar and major towns of Arunachal", emoji: "🚌", appLink: "", webLink: "https://transport.arunachal.gov.in", cities: ["itanagar","naharlagun","pasighat","tawang","ziro"] },
     { name: "Mizoram State Transport", category: "Public Transport", description: "State transport buses connecting Aizawl and districts of Mizoram", emoji: "🚌", appLink: "", webLink: "https://transport.mizoram.gov.in", cities: ["aizawl","lunglei","champhai"] }
 ];
+const categoryGroups = {
+    "Food Delivery": "Food",
+    "Meat Delivery": "Food",
+    "Tiffin Service": "Food",
+    "Grocery": "Instant Grocery",
+    "Grocery Delivery": "Instant Grocery",
+    "Hyperlocal Delivery": "Instant Grocery",
+    "Cab Service": "Cabs & Rides",
+    "Bike Taxi": "Cabs & Rides",
+    "Auto Rickshaw": "Cabs & Rides",
+    "EV Rental": "Cabs & Rides",
+    "Shopping": "Shopping",
+    "Fashion": "Shopping",
+    "Beauty": "Shopping",
+    "Hotels": "Travel & Stay",
+    "Travel": "Travel & Stay",
+    "Train Booking": "Travel & Stay",
+    "Payments": "Payments",
+    "Healthcare": "Healthcare",
+    "Home Services": "Home & Logistics",
+    "Logistics": "Home & Logistics",
+    "Public Transport": "Public Transport"
+};
 
+function getCategoryGroup(category) {
+    return categoryGroups[category] || "Other";
+}
 function getServicesForCity(cityName) {
     const city = cityName.toLowerCase();
     let available = [...panIndiaServices];
@@ -147,11 +173,41 @@ async function detectLocation() {
     );
 }
 
+let currentServicesList = [];
+let activeServiceCategory = "All";
+
 function showServices(cityName) {
-    const available = getServicesForCity(cityName);
+    currentServicesList = getServicesForCity(cityName);
     servicesSection.classList.remove("hidden");
+    renderServiceFilters();
+    renderServiceCards(currentServicesList);
+}
+
+function renderServiceFilters() {
+    const groups = ["All", ...new Set(currentServicesList.map(s => getCategoryGroup(s.category)))];
+    const filterBar = document.getElementById("services-filter");
+    filterBar.innerHTML = "";
+    groups.forEach(function(group) {
+        const btn = document.createElement("button");
+        btn.classList.add("filter-btn");
+        if (group === activeServiceCategory) btn.classList.add("active");
+        btn.textContent = group;
+        btn.addEventListener("click", function() {
+            activeServiceCategory = group;
+            document.querySelectorAll("#services-filter .filter-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            const filtered = group === "All"
+                ? currentServicesList
+                : currentServicesList.filter(s => getCategoryGroup(s.category) === group);
+            renderServiceCards(filtered);
+        });
+        filterBar.appendChild(btn);
+    });
+}
+
+function renderServiceCards(services) {
     servicesGrid.innerHTML = "";
-    available.forEach(function(service) {
+    services.forEach(function(service) {
         const card = document.createElement("div");
         card.classList.add("service-card");
         card.innerHTML = `
@@ -171,7 +227,6 @@ function showServices(cityName) {
         servicesGrid.appendChild(card);
     });
 }
-
 function openApp(appLink, webLink) {
     window.location = appLink;
     setTimeout(function() {
